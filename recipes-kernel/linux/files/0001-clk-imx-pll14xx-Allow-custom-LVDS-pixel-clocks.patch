@@ -1,0 +1,50 @@
+From 55fdec9d5bdffd8ffb897399a6daea42790eb134 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew@moseleynet.net>
+Date: Thu, 24 Apr 2025 13:21:20 -0400
+Subject: [PATCH] clk: imx: pll14xx: Allow custom LVDS pixel clocks.
+
+Signed-off-by: Drew Moseley <drew@moseleynet.net>
+---
+ drivers/gpu/drm/imx/imx8mp-ldb.c | 19 -------------------
+ 1 file changed, 19 deletions(-)
+
+diff --git a/drivers/gpu/drm/imx/imx8mp-ldb.c b/drivers/gpu/drm/imx/imx8mp-ldb.c
+index e3f5c5e6e842..55dbafa863cf 100644
+--- a/drivers/gpu/drm/imx/imx8mp-ldb.c
++++ b/drivers/gpu/drm/imx/imx8mp-ldb.c
+@@ -186,15 +186,6 @@ imx8mp_ldb_encoder_atomic_check(struct drm_encoder *encoder,
+ 		return -EINVAL;
+ 	}
+ 
+-	/*
+-	 * Due to limited video PLL frequency points on i.MX8mp,
+-	 * we do mode fixup here in case any mode is unsupported.
+-	 */
+-	if (ldb->dual)
+-		mode->clock = mode->clock > 100000 ? 148500 : 74250;
+-	else
+-		mode->clock = 74250;
+-
+ 	return 0;
+ }
+ 
+@@ -212,16 +203,6 @@ imx8mp_ldb_encoder_mode_valid(struct drm_encoder *encoder,
+ 	if (ldb_ch->panel)
+ 		return MODE_OK;
+ 
+-	/*
+-	 * Due to limited video PLL frequency points on i.MX8mp,
+-	 * we do mode valid check here.
+-	 */
+-	if (ldb->dual && mode->clock != 74250 && mode->clock != 148500)
+-		return MODE_NOCLOCK;
+-
+-	if (!ldb->dual && mode->clock != 74250)
+-		return MODE_NOCLOCK;
+-
+ 	return MODE_OK;
+ }
+ 
+-- 
+2.43.0
+

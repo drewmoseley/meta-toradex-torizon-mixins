@@ -1,0 +1,50 @@
+From 44ea03cabc2b488366e93ab71f6a204d3f2a3ea1 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew@moseleynet.net>
+Date: Wed, 7 May 2025 13:35:21 -0400
+Subject: [PATCH] verdin-imx8mp: lvds: Use custom LVDS pixel clock rates
+
+Signed-off-by: Drew Moseley <drew@moseleynet.net>
+---
+ ...mx8mp_mezzanine_panel-cap-touch-10inch-lvds_overlay.dts | 7 +++++++
+ .../verdin-imx8mp_panel-cap-touch-10inch-lvds_overlay.dts  | 7 +++++++
+ 2 files changed, 14 insertions(+)
+
+diff --git a/overlays/verdin-imx8mp_mezzanine_panel-cap-touch-10inch-lvds_overlay.dts b/overlays/verdin-imx8mp_mezzanine_panel-cap-touch-10inch-lvds_overlay.dts
+index 08b4666..46f3dff 100644
+--- a/overlays/verdin-imx8mp_mezzanine_panel-cap-touch-10inch-lvds_overlay.dts
++++ b/overlays/verdin-imx8mp_mezzanine_panel-cap-touch-10inch-lvds_overlay.dts
+@@ -43,6 +43,13 @@
+ 	};
+ };
+ 
++&media_blk_ctrl {
++       assigned-clock-rates = <500000000>, <200000000>,
++                              <0>, <0>, <497700000>; // 71.1MHz
++                               //<0>, <0>, <358400000>; // 51.2MHz
++                              //<0>, <0>, <454970880>; // 64.9Mhz
++};
++
+ &atmel_mxt_ts_mezzanine {
+ 	status = "okay";
+ };
+diff --git a/overlays/verdin-imx8mp_panel-cap-touch-10inch-lvds_overlay.dts b/overlays/verdin-imx8mp_panel-cap-touch-10inch-lvds_overlay.dts
+index c697398..812f346 100644
+--- a/overlays/verdin-imx8mp_panel-cap-touch-10inch-lvds_overlay.dts
++++ b/overlays/verdin-imx8mp_panel-cap-touch-10inch-lvds_overlay.dts
+@@ -61,6 +61,13 @@
+ 	};
+ };
+ 
++&media_blk_ctrl {
++       assigned-clock-rates = <500000000>, <200000000>,
++                              <0>, <0>, <497700000>; // 71.1MHz
++                               //<0>, <0>, <358400000>; // 51.2MHz
++                              //<0>, <0>, <454970880>; // 64.9Mhz
++};
++
+ &gpu_2d {
+ 	status = "okay";
+ };
+-- 
+2.43.0
+

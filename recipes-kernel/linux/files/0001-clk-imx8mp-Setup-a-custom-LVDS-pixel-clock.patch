@@ -1,0 +1,88 @@
+From 35dd4e570a45708a20f8544931236a964af5c8ea Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew@moseleynet.net>
+Date: Thu, 24 Apr 2025 13:21:20 -0400
+Subject: [PATCH 1/2] clk: imx8mp: Setup a custom LVDS pixel clock.
+
+This value is currently set for 71.1 MHz.
+
+Signed-off-by: Drew Moseley <drew@moseleynet.net>
+---
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi |  4 ++--
+ drivers/clk/imx/clk-pll14xx.c             |  1 +
+ drivers/gpu/drm/imx/imx8mp-ldb.c          | 19 -------------------
+ 3 files changed, 3 insertions(+), 21 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+index 5b1b794a5232..d31e190129cd 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+@@ -823,7 +823,7 @@ clk: clock-controller@30380000 {
+ 						       <800000000>,
+ 						       <393216000>,
+ 						       <361267200>,
+-						       <1039500000>;
++						       <497700000>;
+ 			};
+ 
+ 			src: reset-controller@30390000 {
+@@ -1372,7 +1372,7 @@ media_blk_ctrl: media-blk-ctrl@32ec0000 {
+ 							 <&clk IMX8MP_SYS_PLL2_500M>;
+ 				assigned-clock-rates = <500000000>, <200000000>,
+ 						       <0>, <0>, <500000000>,
+-						       <1039500000>;
++						       <497700000>;
+ 				power-domains = <&mediamix_pd>;
+ 
+ 				#clock-cells = <1>;
+diff --git a/drivers/clk/imx/clk-pll14xx.c b/drivers/clk/imx/clk-pll14xx.c
+index 1563a7bff422..afe5b2810006 100644
+--- a/drivers/clk/imx/clk-pll14xx.c
++++ b/drivers/clk/imx/clk-pll14xx.c
+@@ -60,6 +60,7 @@ static const struct imx_pll14xx_rate_table imx_pll1443x_tbl[] = {
+ 	PLL_1443X_RATE(650000000U, 325, 3, 2, 0),
+ 	PLL_1443X_RATE(594000000U, 198, 2, 2, 0),
+ 	PLL_1443X_RATE(519750000U, 173, 2, 2, 16384),
++	PLL_1443X_RATE(497700000U, 165, 2, 2, 0),
+ 	PLL_1443X_RATE(393216000U, 262, 2, 3, 9437),
+ 	PLL_1443X_RATE(361267200U, 361, 3, 3, 17511),
+ };
+diff --git a/drivers/gpu/drm/imx/imx8mp-ldb.c b/drivers/gpu/drm/imx/imx8mp-ldb.c
+index 195146f82839..27720e47427e 100644
+--- a/drivers/gpu/drm/imx/imx8mp-ldb.c
++++ b/drivers/gpu/drm/imx/imx8mp-ldb.c
+@@ -195,15 +195,6 @@ imx8mp_ldb_encoder_atomic_check(struct drm_encoder *encoder,
+ 		return -EINVAL;
+ 	}
+ 
+-	/*
+-	 * Due to limited video PLL frequency points on i.MX8mp,
+-	 * we do mode fixup here in case any mode is unsupported.
+-	 */
+-	if (ldb->dual)
+-		mode->clock = mode->clock > 100000 ? 148500 : 74250;
+-	else
+-		mode->clock = 74250;
+-
+ 	return 0;
+ }
+ 
+@@ -221,16 +212,6 @@ imx8mp_ldb_encoder_mode_valid(struct drm_encoder *encoder,
+ 	if (ldb_ch->panel)
+ 		return MODE_OK;
+ 
+-	/*
+-	 * Due to limited video PLL frequency points on i.MX8mp,
+-	 * we do mode valid check here.
+-	 */
+-	if (ldb->dual && mode->clock != 74250 && mode->clock != 148500)
+-		return MODE_NOCLOCK;
+-
+-	if (!ldb->dual && mode->clock != 74250)
+-		return MODE_NOCLOCK;
+-
+ 	return MODE_OK;
+ }
+ 
+-- 
+2.43.0
+

@@ -6,7 +6,7 @@ All standard [Torizon layers](https://developer.toradex.com/torizon/in-depth/bui
 
 # Torizon Versions
 
-This layer has been tested with the following Torizon versions.  Please reach out to Toradex support if you need other version.
+This layer has been tested with the following Torizon versions. Please reach out to Toradex support if you need other version.
 * 6.8.1
 
 # Adding the meta-toradex-torizon-mixins layer to your build
@@ -27,13 +27,20 @@ Then create the file `.repo/local_manifests/torizon-mixins.xml` with the followi
 # Supported features
 
 Currently this layer supports:
-* custom LVDS timing on platforms that require it for certain displays.  See [this link](https://developer.toradex.com/linux-bsp/application-development/multimedia/display-output-resolution-and-timings-linux/#verdin-imx8m-plus-lvds-known-issues) for more details.
+* custom LVDS timing on platforms that require it for certain displays. See [this link](https://developer.toradex.com/linux-bsp/application-development/multimedia/display-output-resolution-and-timings-linux/#verdin-imx8m-plus-lvds-known-issues) for more details.
 
 # Using the layer
+
+Note that users of the [Containerized Torizon OS
+Build](https://developer.toradex.com/torizon/in-depth/build-torizoncore-from-source-with-yocto-projectopenembedded/#containerizedtorizoncorebuild)
+will need to do these steps differently as that setup runs everything in one-step. This layer will work in that setup, however it has not yet
+been tested. Patches to these docs will be gladly accepted.
+
 
 After adding the `local_manifest` file as discussed above, do the following:
 ```
 $ repo sync
+$ MACHINE=<your-machine-here> source setup-environment build
 ```
 
 And enable the specific features by adding the following to your `conf/local.conf` file:

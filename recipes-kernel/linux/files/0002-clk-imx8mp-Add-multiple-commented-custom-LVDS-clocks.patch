@@ -1,0 +1,53 @@
+From 76f3e55e34eda8deace9bbae8f70aa52bf44f765 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew@moseleynet.net>
+Date: Wed, 7 May 2025 11:56:17 -0400
+Subject: [PATCH 2/2] clk: imx8mp: Add multiple commented custom LVDS clocks.
+
+Signed-off-by: Drew Moseley <drew@moseleynet.net>
+---
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi | 4 ++++
+ drivers/clk/imx/clk-pll14xx.c             | 4 +++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+index d31e190129cd..911ac4a5eb02 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+@@ -824,6 +824,8 @@ clk: clock-controller@30380000 {
+ 						       <393216000>,
+ 						       <361267200>,
+ 						       <497700000>;
++						       //<358400000>;
++						       //<454970880>;
+ 			};
+ 
+ 			src: reset-controller@30390000 {
+@@ -1373,6 +1375,8 @@ media_blk_ctrl: media-blk-ctrl@32ec0000 {
+ 				assigned-clock-rates = <500000000>, <200000000>,
+ 						       <0>, <0>, <500000000>,
+ 						       <497700000>;
++						       //<358400000>;
++						       //<454970880>;
+ 				power-domains = <&mediamix_pd>;
+ 
+ 				#clock-cells = <1>;
+diff --git a/drivers/clk/imx/clk-pll14xx.c b/drivers/clk/imx/clk-pll14xx.c
+index afe5b2810006..5a132d63346c 100644
+--- a/drivers/clk/imx/clk-pll14xx.c
++++ b/drivers/clk/imx/clk-pll14xx.c
+@@ -60,9 +60,11 @@ static const struct imx_pll14xx_rate_table imx_pll1443x_tbl[] = {
+ 	PLL_1443X_RATE(650000000U, 325, 3, 2, 0),
+ 	PLL_1443X_RATE(594000000U, 198, 2, 2, 0),
+ 	PLL_1443X_RATE(519750000U, 173, 2, 2, 16384),
+-	PLL_1443X_RATE(497700000U, 165, 2, 2, 0),
++	PLL_1443X_RATE(497700000U, 415, 5, 2, 0xc000),
++	PLL_1443X_RATE(454970880U, 834, 11, 2, 7424),
+ 	PLL_1443X_RATE(393216000U, 262, 2, 3, 9437),
+ 	PLL_1443X_RATE(361267200U, 361, 3, 3, 17511),
++	PLL_1443X_RATE(358400000U, 239, 2, 3, 0xeeef),
+ };
+ 
+ struct imx_pll14xx_clk imx_1443x_pll = {
+-- 
+2.43.0
+

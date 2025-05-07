@@ -6,8 +6,8 @@ All standard [Torizon layers](https://developer.toradex.com/torizon/in-depth/bui
 
 # Torizon Versions
 
-This layer has been tested with the following Torizon versions. Please reach out to Toradex support if you need other version.
-* 6.8.1
+This layer has been tested with the following Torizon versions. Please reach out to Toradex support if you need other versions.
+* 7.1.0
 
 # Adding the meta-toradex-torizon-mixins layer to your build
 

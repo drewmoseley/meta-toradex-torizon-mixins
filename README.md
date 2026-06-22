@@ -20,7 +20,7 @@ Then create the file `.repo/local_manifests/torizon-mixins.xml` with the followi
 <?xml version="1.0" encoding="UTF-8" ?>
 <manifest>
 <remote fetch="https://github.com/" name="github"/>
-<project name="drewmoseley/meta-toradex-torizon-mixins" remote="github" revision="6.8.1" path="layers/meta-toradex-torizon-mixins"/>
+<project name="drewmoseley/meta-toradex-torizon-mixins" remote="github" revision="scarthgap-7.x.y" path="layers/meta-toradex-torizon-mixins"/>
 </manifest>
 ```
 
